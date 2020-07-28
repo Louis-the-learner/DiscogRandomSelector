@@ -17,14 +17,13 @@ namespace discogSelector.Controllers
         private const int MaximumAllowedSelection = 5;
 
         private static readonly String InvalidArgument = "Invalid argument value: {0} \r\nMust be between {1} and {2}";
-    
-        public DiscogSelectorController(DiscogSelectorService selectorService)
+
+        public DiscogSelectorController(ISelectorService selectorService)
         {
             this.SelectorService = selectorService;
         }
 
-        private DiscogSelectorService SelectorService { get; }
-
+        private ISelectorService SelectorService { get; }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Release>>> Get([FromQuery] int nbOfSelections)
@@ -44,7 +43,7 @@ namespace discogSelector.Controllers
 
             var nbTotalOfItems = await SelectorService.GetTotalItems();
 
-            for ( int randomReleaseTurn = 0; randomReleaseTurn < nbOfSelections; randomReleaseTurn++ )
+            for (int randomReleaseTurn = 0; randomReleaseTurn < nbOfSelections; randomReleaseTurn++)
             {
                 int releaseItemPosition = r.Next(0, nbTotalOfItems);
 

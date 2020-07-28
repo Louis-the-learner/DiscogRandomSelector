@@ -12,7 +12,7 @@ using discogSelector.Models;
 
 namespace discogSelector.Services
 {
-    public class DiscogSelectorService
+    public class DiscogSelectorService: ISelectorService
     {
         private static readonly HttpClient client = new HttpClient();
         private static readonly String DiscogApiUrl = "https://api.discogs.com/users/ausamerika/collection/folders/0/releases";
@@ -45,7 +45,7 @@ namespace discogSelector.Services
 
         }
 
-        
+
         public async Task<Release> GetItem(int itemPosition)
         {
             if (nbItemsPerPage == 0 || nbTotalOfItems == 0 || nbTotalOfPages == 0)
