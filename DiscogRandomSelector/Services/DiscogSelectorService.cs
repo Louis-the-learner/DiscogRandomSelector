@@ -11,6 +11,13 @@ using discogRandomSelector.Models;
 
 namespace discogRandomSelector.Services
 {
+
+    /// <summary>
+    /// Service class responsible for the interaction with the Discog existing web API, including the HTTP calls to it.
+    /// The client of this service will not have to deal with the details of the API, like number 
+    /// of pages and items per page.
+    /// Implements the <see cref="ISelectorService"/> interface, so it can be mocked easily for client unit testing.
+    /// </summary>
     public class DiscogSelectorService: ISelectorService
     {
         private static readonly HttpClient client = new HttpClient();
@@ -33,6 +40,10 @@ namespace discogRandomSelector.Services
 
         }
 
+        /// <summary>
+        /// Retrieve and return the total number of items stored and available on the Discog Web API
+        /// </summary>
+        /// <returns>the number of items from the Discog Web API</returns>
         public async Task<int> GetTotalItems()
         {
             if (nbItemsPerPage == 0 || nbTotalOfItems == 0 || nbTotalOfPages == 0)
@@ -45,6 +56,13 @@ namespace discogRandomSelector.Services
         }
 
 
+        /// <summary>
+        /// Retrieve a specific item, based on its position related to the total number of items from 
+        /// the Discog Web API. This method will determine on which page the requested item 
+        /// is located, to query the right page.
+        /// </summary>
+        /// <param name="itemPosition">the position of the requested item</param>
+        /// <returns>the item corresponding to the specified position</returns>
         public async Task<Release> GetItem(int itemPosition)
         {
             if (nbItemsPerPage == 0 || nbTotalOfItems == 0 || nbTotalOfPages == 0)
@@ -66,6 +84,14 @@ namespace discogRandomSelector.Services
         }
 
 
+        /// <summary>
+        /// Retrieve and return the release items from a specific page, and store them in memory.
+        /// If the page has been retrieved previously, return the results from memory, 
+        /// without fetching the page.
+        /// </summary>
+        /// <param name="pageNumber">the page number from which the release items must 
+        /// be retrieved.</param>
+        /// <returns>the release items from the specified page.</returns>
         private async Task<List<Release>> GetPageResults(int pageNumber)
         {
             if (pageResultsDictionnary.ContainsKey(pageNumber))
@@ -80,6 +106,11 @@ namespace discogRandomSelector.Services
             return pageResultData.Releases;
         }
 
+        /// <summary>
+        /// Build the complete URL to retrieve a specific page
+        /// </summary>
+        /// <param name="pageNumber">the page number of interest</param>
+        /// <returns>the complete URL that will permit to navigate to the desired page</returns>
         private String GetUrlFromPageNumber(int pageNumber)
         {
             
@@ -93,6 +124,11 @@ namespace discogRandomSelector.Services
 
         }
 
+        /// <summary>
+        /// Fetch a page from the Discog Web API based on a supplied URL
+        /// </summary>
+        /// <param name="pageUrl">The page URL of interest</param>
+        /// <returns>The page matching the supplied URL</returns>
         private async Task<PageResult> RetrievePageFromHttpCall(String pageUrl)
         {
             client.DefaultRequestHeaders.Accept.Clear();
@@ -105,6 +141,13 @@ namespace discogRandomSelector.Services
         }
 
 
+        /// <summary>
+        /// Retrieve and store pagination useful values from Discog Web API initial page.
+        /// Those values are:
+        /// - number of items per page
+        /// - total number of items
+        /// - total number of pages
+        /// </summary>
         private async Task InitPageAndItemNumbers()
         {
             var objectData = await RetrievePageFromHttpCall(DiscogApiUrl);

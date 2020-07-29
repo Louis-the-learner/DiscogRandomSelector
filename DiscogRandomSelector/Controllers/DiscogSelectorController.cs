@@ -8,6 +8,10 @@ using discogRandomSelector.Services;
 
 namespace discogRandomSelector.Controllers
 {
+    /// <summary>
+    /// This is the API controller that will expose a Get method to retrieve random items from
+    /// the Discog collection.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class DiscogSelectorController : ControllerBase
@@ -24,6 +28,13 @@ namespace discogRandomSelector.Controllers
 
         private ISelectorService SelectorService { get; }
 
+        /// <summary>
+        /// Retrieve a random selection of items from the Discog collection. 
+        /// A supplied parameter determines how many to select, from 1 up to 5.
+        /// </summary>
+        /// <param name="nbOfSelections">The desired number of selections. 
+        /// Must be between 1 and 5, will return error otherwise</param>
+        /// <returns>A desired number of random selection of item from Discog collection</returns>
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] int nbOfSelections)
         {
