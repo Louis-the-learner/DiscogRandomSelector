@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Web;
-using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using System.Threading.Tasks;
+using System.Web;
 
-using discogSelector.Models;
+using discogRandomSelector.Models;
 
-namespace discogSelector.Services
+namespace discogRandomSelector.Services
 {
     public class DiscogSelectorService: ISelectorService
     {
@@ -67,7 +66,6 @@ namespace discogSelector.Services
         }
 
 
-
         private async Task<List<Release>> GetPageResults(int pageNumber)
         {
             if (pageResultsDictionnary.ContainsKey(pageNumber))
@@ -95,7 +93,7 @@ namespace discogSelector.Services
 
         }
 
-        private async Task<ObjectData> RetrievePageFromHttpCall(String pageUrl)
+        private async Task<PageResult> RetrievePageFromHttpCall(String pageUrl)
         {
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
@@ -103,7 +101,7 @@ namespace discogSelector.Services
             client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
 
             var streamTask = client.GetStreamAsync(pageUrl);
-            return await JsonSerializer.DeserializeAsync<ObjectData>(await streamTask);
+            return await JsonSerializer.DeserializeAsync<PageResult>(await streamTask);
         }
 
 

@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 
-using discogSelector.Models;
+using discogRandomSelector.Models;
 
-namespace discogSelector.Services
+namespace discogRandomSelector.Services
 {
     
     public interface ISelectorService

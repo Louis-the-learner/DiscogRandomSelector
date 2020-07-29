@@ -1,8 +1,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-
-namespace discogSelector.Services
+namespace discogRandomSelector.Services
 {
     public class DiscogApiHelper
     {
@@ -16,7 +15,5 @@ namespace discogSelector.Services
                 new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
             ApiClient.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter"); 
        }
-
-       
     }
 }

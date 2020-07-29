@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 
-namespace discogSelector.Models
+namespace discogRandomSelector.Models
 {
     public class Pagination
     {

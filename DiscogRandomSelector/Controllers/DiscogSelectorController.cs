@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Mvc;
+using discogRandomSelector.Models;
+using discogRandomSelector.Services;
 
-using discogSelector.Models;
-using discogSelector.Services;
-
-namespace discogSelector.Controllers
+namespace discogRandomSelector.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -26,7 +25,7 @@ namespace discogSelector.Controllers
         private ISelectorService SelectorService { get; }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Release>>> Get([FromQuery] int nbOfSelections)
+        public async Task<IActionResult> Get([FromQuery] int nbOfSelections)
         {
             if (nbOfSelections < MinimumAllowedSelection || nbOfSelections > MaximumAllowedSelection)
             {
@@ -48,8 +47,8 @@ namespace discogSelector.Controllers
                 int releaseItemPosition = r.Next(0, nbTotalOfItems);
 
                 randomReleases.Add(await SelectorService.GetItem(releaseItemPosition));
-
             }
+
             return randomReleases;
         }
 

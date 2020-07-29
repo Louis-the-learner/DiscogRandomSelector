@@ -1,9 +1,9 @@
-using System.Text.Json.Serialization;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace discogSelector.Models
+namespace discogRandomSelector.Models
 {
-    public class ObjectData
+    public class PageResult
     {
 
         [JsonPropertyName("pagination")]
